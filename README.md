@@ -1,273 +1,162 @@
-![SharpAPI GitHub cover](https://sharpapi.com/sharpapi-github-php-bg.jpg "SharpAPI Node.js Paraphrase")
+![SharpAPI GitHub cover](https://sharpapi.com/sharpapi-github-php-bg.jpg "SharpAPI Node.js Client")
 
-# SharpAPI NodeJS Paraphrase SDK
+# Text Paraphraser API for Node.js
 
-## 🚀 Automate text paraphrasing with AI-powered API
+## ✍️ Rewrite text while preserving meaning — powered by SharpAPI AI.
 
-### Leverage AI API to generate paraphrased versions of your text content for content creation, SEO, and more.
-
-**SharpAPI.com Node.js Paraphrase SDK** enables developers to integrate advanced text paraphrasing capabilities into their Node.js applications. This SDK simplifies interaction with the SharpAPI paraphrasing service, providing a seamless way to generate alternative versions of your text content.
-
-See more at [SharpAPI.com Website &raquo;](https://sharpapi.com/)
-
-[![Version](https://img.shields.io/npm/v/@sharpapi/sharpapi-node-paraphrase.svg)](https://www.npmjs.com/package/@sharpapi/sharpapi-node-paraphrase)
+[![npm version](https://img.shields.io/npm/v/@sharpapi/sharpapi-node-paraphrase.svg)](https://www.npmjs.com/package/@sharpapi/sharpapi-node-paraphrase)
 [![License](https://img.shields.io/npm/l/@sharpapi/sharpapi-node-paraphrase.svg)](https://github.com/sharpapi/sharpapi-node-client/blob/master/LICENSE.md)
+
+**SharpAPI Text Paraphraser** rewrites your content while maintaining the original meaning. Perfect for content creation, avoiding plagiarism, and generating alternative versions of text with customizable voice tones.
+
+---
+
+## 📋 Table of Contents
+
+1. [Requirements](#requirements)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [API Documentation](#api-documentation)
+5. [Examples](#examples)
+6. [Use Cases](#use-cases)
+7. [API Endpoint](#api-endpoint)
+8. [Related Packages](#related-packages)
+9. [License](#license)
+
+---
 
 ## Requirements
 
 - Node.js >= 16.x
-
-## Installation
-
-```bash
-npm i @sharpapi/sharpapi-node-paraphrase
-```
-
----
-
-## Table of Contents
-
-1. [Installation](#installation)
-2. [Configuration](#configuration)
-3. [Usage](#usage)
-   - [Initialization](#initialization)
-   - [Available Methods](#available-methods)
-4. [Examples](#examples)
-5. [Contributing](#contributing)
-6. [License](#license)
+- npm or yarn
 
 ---
 
 ## Installation
 
-### Prerequisites
-
-- **Node.js** v16 or higher
-- **npm** (Node Package Manager)
-
-### Install via npm
-
-You can install the SharpAPI Node.js Paraphrase SDK using npm:
+### Step 1. Install the package via npm:
 
 ```bash
 npm install @sharpapi/sharpapi-node-paraphrase
 ```
 
-### Install via Yarn
+### Step 2. Get your API key
 
-Alternatively, if you prefer using Yarn:
-
-```bash
-yarn add @sharpapi/sharpapi-node-paraphrase
-```
-
----
-
-## Configuration
-
-### Setting Up Environment Variables
-
-To protect your credentials, it's recommended to use a `.env` file to store your SharpAPI API key. Follow these steps:
-
-1. **Create a `.env` File**
-
-   In the root directory of your project, create a file named `.env`:
-
-   ```plaintext
-   SHARP_API_KEY=your_actual_api_key_here
-   ```
-
-2. **Install `dotenv` Package**
-
-   To load environment variables from the `.env` file, install the `dotenv` package:
-
-   ```bash
-   npm install dotenv
-   ```
-
-3. **Load Environment Variables**
-
-   At the beginning of your application (e.g., in `app.js` or `index.js`), add the following line to load the environment variables:
-
-   ```javascript
-   require('dotenv').config();
-   ```
-
-4. **Ensure `.env` is Ignored**
-
-   Add `.env` to your `.gitignore` file to prevent sensitive information from being committed to version control:
-
-   ```plaintext
-   # .gitignore
-   .env
-   ```
+Visit [SharpAPI.com](https://sharpapi.com/) to get your API key.
 
 ---
 
 ## Usage
 
-### Initialization
-
-First, import and initialize the `SharpApiParaphraseService` with your API key:
-
 ```javascript
-// Load environment variables
-require('dotenv').config();
-
-// Import the SharpApiParaphraseService
 const { SharpApiParaphraseService } = require('@sharpapi/sharpapi-node-paraphrase');
 
-// Initialize the SharpApiParaphraseService
-const apiKey = process.env.SHARP_API_KEY;
-const paraphraseService = new SharpApiParaphraseService(apiKey);
-```
+const apiKey = process.env.SHARP_API_KEY; // Store your API key in environment variables
+const service = new SharpApiParaphraseService(apiKey);
 
-### Available Methods
+const text = 'The quick brown fox jumps over the lazy dog.';
 
-The `SharpApiParaphraseService` class provides a method to paraphrase text:
-
-#### paraphrase(text, language, maxLength, voiceTone, context)
-
-- **Description:** Generates a paraphrased version of the provided text.
-- **Parameters:**
-  - `text` (string): The text to paraphrase.
-  - `language` (string, optional): Language of the paraphrase (default: 'English').
-  - `maxLength` (number, optional): Maximum length of the paraphrased text.
-  - `voiceTone` (string, optional): Tone of the voice in the paraphrase (e.g., 'Neutral').
-  - `context` (string, optional): Additional context for paraphrasing.
-- **Returns:** A Promise that resolves to a status URL.
-- **Usage:**
-  ```javascript
-  const statusUrl = await paraphraseService.paraphrase(
-    "Original text to paraphrase.",
-    "English",
-    100,
-    "Neutral",
-    null
-  );
-  
-  // Fetch the results using the core service
-  const { SharpApiCoreService } = require('@sharpapi/sharpapi-node-core');
-  const coreService = new SharpApiCoreService(apiKey);
-  const resultJob = await coreService.fetchResults(statusUrl);
-  console.log(resultJob.getResultJson());
-  ```
-
-## Examples
-
-### Basic Paraphrasing
-
-```javascript
-require('dotenv').config();
-const { SharpApiParaphraseService } = require('@sharpapi/sharpapi-node-paraphrase');
-const { SharpApiCoreService } = require('@sharpapi/sharpapi-node-core');
-
-async function paraphraseExample() {
-  const apiKey = process.env.SHARP_API_KEY;
-  const paraphraseService = new SharpApiParaphraseService(apiKey);
-  const coreService = new SharpApiCoreService(apiKey);
-
+async function processText() {
   try {
-    // Original text to paraphrase
-    const originalText = "The quick brown fox jumps over the lazy dog.";
-    
-    // Paraphrase the text
-    const statusUrl = await paraphraseService.paraphrase(originalText);
-    
-    // Fetch the results
-    const resultJob = await coreService.fetchResults(statusUrl);
-    const result = resultJob.getResultJson();
-    
-    console.log("Original Text:", originalText);
-    console.log("Paraphrased Text:", result.paraphrased_text);
+    // Submit processing job
+    const statusUrl = await service.paraphrase(text);
+    console.log('Job submitted. Status URL:', statusUrl);
+
+    // Fetch results (polls automatically until complete)
+    const result = await service.fetchResults(statusUrl);
+    console.log('Result:', result.getResultJson());
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error('Error:', error.message);
   }
 }
 
-paraphraseExample();
-```
-
-### Advanced Paraphrasing with Options
-
-```javascript
-require('dotenv').config();
-const { SharpApiParaphraseService } = require('@sharpapi/sharpapi-node-paraphrase');
-const { SharpApiCoreService } = require('@sharpapi/sharpapi-node-core');
-
-async function advancedParaphraseExample() {
-  const apiKey = process.env.SHARP_API_KEY;
-  const paraphraseService = new SharpApiParaphraseService(apiKey);
-  const coreService = new SharpApiCoreService(apiKey);
-
-  try {
-    // Original text to paraphrase
-    const originalText = "The company has experienced significant growth in the last quarter, with revenue increasing by 25%.";
-    
-    // Paraphrase the text with specific options
-    const statusUrl = await paraphraseService.paraphrase(
-      originalText,
-      "English",
-      150,
-      "Professional",
-      "Financial report"
-    );
-    
-    // Fetch the results
-    const resultJob = await coreService.fetchResults(statusUrl);
-    const result = resultJob.getResultJson();
-    
-    console.log("Original Text:", originalText);
-    console.log("Paraphrased Text:", result.paraphrased_text);
-  } catch (error) {
-    console.error("Error:", error.message);
-  }
-}
-
-advancedParaphraseExample();
+processText();
 ```
 
 ---
 
 ## API Documentation
 
-For detailed usage and API methods, please refer to the [SharpAPI.com Documentation](https://sharpapi.com/documentation).
+### Methods
+
+The service provides methods for processing content asynchronously. All methods return a status URL for polling results.
+
+**Parameters:**
+- `content` (string, required): The content to process
+- `language` (string, optional): Output language
+- `voice_tone` (string, optional): Desired tone (e.g., professional, casual)
+- `context` (string, optional): Additional context for better results
+
+For complete API specifications, see the [Postman Documentation](https://documenter.getpostman.com/view/31106842/2sBXVeGsRS).
+
+### Response Format
+
+The API returns structured JSON data. Response format varies by endpoint - see documentation for details.
 
 ---
 
-## Changelog
+## Examples
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+### Basic Example
+
+```javascript
+const { SharpApiParaphraseService } = require('@sharpapi/sharpapi-node-paraphrase');
+
+const service = new SharpApiParaphraseService(process.env.SHARP_API_KEY);
+
+// Customize polling behavior if needed
+service.setApiJobStatusPollingInterval(10);  // Poll every 10 seconds
+service.setApiJobStatusPollingWait(180);     // Wait up to 3 minutes
+
+// Use the service
+// ... (implementation depends on specific service)
+```
+
+For more examples, visit the [Product Page](https://sharpapi.com/en/catalog/ai/content-marketing-automation/paraphrase-text).
 
 ---
 
-## Contributing
+## Use Cases
 
-Check [CONTRIBUTION.md](CONTRIBUTION.md) file for details.
+- **Content Creation**: Generate alternative versions of marketing copy
+- **Plagiarism Avoidance**: Rewrite content while keeping the original meaning
+- **Simplification**: Make complex text more accessible
+- **Tone Adjustment**: Change the writing style (formal, casual, professional)
+- **A/B Testing**: Create variations for content testing
+- **Content Repurposing**: Adapt content for different platforms
+
+---
+
+## API Endpoint
+
+**POST** `/content/paraphrase`
+
+For detailed API specifications, refer to:
+- [Postman Documentation](https://documenter.getpostman.com/view/31106842/2sBXVeGsRS)
+- [Product Page](https://sharpapi.com/en/catalog/ai/content-marketing-automation/paraphrase-text)
+
+---
+
+## Related Packages
+
+- [@sharpapi/sharpapi-node-translate](https://www.npmjs.com/package/@sharpapi/sharpapi-node-translate)
+- [@sharpapi/sharpapi-node-proofread](https://www.npmjs.com/package/@sharpapi/sharpapi-node-proofread)
+- [@sharpapi/sharpapi-node-summarize-text](https://www.npmjs.com/package/@sharpapi/sharpapi-node-summarize-text)
 
 ---
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project is licensed under the MIT License. See the [LICENSE.md](LICENSE.md) file for details.
 
 ---
 
 ## Support
 
-If you encounter any issues or have questions, feel free to open an issue on the [GitHub repository](https://github.com/sharpapi/sharpapi-node-client/issues) or contact support at [contact@sharpapi.com](mailto:contact@sharpapi.com).
+- **Documentation**: [SharpAPI.com Documentation](https://sharpapi.com/documentation)
+- **Issues**: [GitHub Issues](https://github.com/sharpapi/sharpapi-node-client/issues)
+- **Email**: contact@sharpapi.com
 
 ---
 
-## Social Media
-
-🚀 For the latest news, tutorials, and case studies, don't forget to follow us on:
-- [SharpAPI X (formerly Twitter)](https://x.com/SharpAPI)
-- [SharpAPI YouTube](https://www.youtube.com/@SharpAPI)
-- [SharpAPI Vimeo](https://vimeo.com/SharpAPI)
-- [SharpAPI LinkedIn](https://www.linkedin.com/products/a2z-web-ltd-sharpapicom-automate-with-aipowered-api/)
-- [SharpAPI Facebook](https://www.facebook.com/profile.php?id=61554115896974)
-
----
-
-**Happy Coding with SharpAPI Node.js Paraphrase SDK!**
+**Powered by [SharpAPI](https://sharpapi.com/) - AI-Powered API Workflow Automation**
